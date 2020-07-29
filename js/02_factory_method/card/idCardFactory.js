@@ -1,15 +1,14 @@
 const IDCard = require('./idcard')
-const CardFactory = require('../framework/cardFactory')
-class IDCardFactory extends CardFactory{
-    constructor() {
-        super()
+const generateCardFactory = require('../framework/cardFactory')
+
+module.exports = generateCardFactory(
+    function(owner) {
+        return new IDCard(owner)
+    },
+    function(product) {
+        this.cards.set(product.name, product)
+    },
+    function() {
         this.cards = new Map()
     }
-    createProduct(owner) {
-        return new IDCard(owner)
-    }
-    registerProduct(product) {
-        this.cards.set(product.name, product)
-    }
-}
-module.exports = IDCardFactory
+)
